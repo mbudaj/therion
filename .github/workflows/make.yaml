@@ -16,7 +16,7 @@ jobs:
       - name: compile therion
         run: |
           make config-debian
-          make
+          make -j$(nproc)
           make tests
           make samples
           sudo make install
@@ -39,8 +39,8 @@ jobs:
       - name: compile therion
         run: |
           make config-macosx
-          make ./therion
-          make loch/loch
+          make -j$(nproc) ./therion
+          make -j$(nproc) loch/loch
           make tests
           ./therion --version
   mxe-i686:
@@ -58,8 +58,8 @@ jobs:
           export PATH=/usr/lib/mxe/usr/bin:$PATH
           perl makeconfig.pl PLATFORM WIN32CROSS
           cd loch; perl makeconfig.pl PLATFORM WIN32CROSS; cd ..
-          make OUTDIR=. therion
-          make OUTDIR=. loch/loch
+          make -j$(nproc) therion
+          make -j$(nproc) loch/loch
   mxe-x86_64:
     runs-on: ubuntu-20.04
     steps:
@@ -75,8 +75,8 @@ jobs:
           export PATH=/usr/lib/mxe/usr/bin:$PATH
           perl makeconfig.pl PLATFORM WIN32CROSS
           cd loch; perl makeconfig.pl PLATFORM WIN32CROSS; cd ..
-          make CROSS=x86_64-w64-mingw32.static- OUTDIR=. therion
-          make CROSS=x86_64-w64-mingw32.static- OUTDIR=. loch/loch
+          make CROSS=x86_64-w64-mingw32.static- -j$(nproc) therion
+          make CROSS=x86_64-w64-mingw32.static- -j$(nproc) loch/loch
   mingw:
     runs-on: windows-latest
     strategy:
@@ -100,6 +100,6 @@ jobs:
           WD: D:/a/_temp/msys/msys64/usr/bin/
         run: |
           mingw32-make config-win32
-          mingw32-make OUTDIR=. therion
-          mingw32-make OUTDIR=. loch/loch
-          mingw32-make OUTDIR=. tests
+          mingw32-make -j$(nproc) therion
+          mingw32-make -j$(nproc) loch/loch
+          mingw32-make tests
