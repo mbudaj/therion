@@ -75,7 +75,7 @@ jobs:
           export PATH=/usr/lib/mxe/usr/bin:$PATH
           perl makeconfig.pl PLATFORM WIN32CROSS
           cd loch; perl makeconfig.pl PLATFORM WIN32CROSS; cd ..
-          make CROSS=x86_64-w64-mingw32.static- -j$(nproc) therion
+          make CROSS=x86_64-w64-mingw32.static- -j$(nproc) ./therion
           make CROSS=x86_64-w64-mingw32.static- -j$(nproc) loch/loch
   mingw:
     runs-on: windows-latest
@@ -99,6 +99,6 @@ jobs:
           WD: D:/a/_temp/msys/msys64/usr/bin/
         run: |
           mingw32-make config-win32
-          mingw32-make -j$(nproc) therion
+          mingw32-make -j$(nproc) ./therion
           mingw32-make -j$(nproc) loch/loch
           mingw32-make tests
