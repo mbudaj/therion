@@ -58,7 +58,7 @@ jobs:
           export PATH=/usr/lib/mxe/usr/bin:$PATH
           perl makeconfig.pl PLATFORM WIN32CROSS
           cd loch; perl makeconfig.pl PLATFORM WIN32CROSS; cd ..
-          make -j$(nproc) therion
+          make -j$(nproc) ./therion
           make -j$(nproc) loch/loch
   mxe-x86_64:
     runs-on: ubuntu-20.04
