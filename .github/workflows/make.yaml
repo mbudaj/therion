@@ -81,10 +81,9 @@ jobs:
     runs-on: windows-latest
     strategy:
       matrix:
-        include: [
-          { msystem: MINGW64, arch: x86_64 },
-          { msystem: MINGW32, arch: i686   }
-        ]
+        include: 
+          - { msystem: MINGW64, arch: x86_64 }
+          - { msystem: MINGW32, arch: i686   }
     defaults:
       run:
         shell: msys2 {0}
