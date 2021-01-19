@@ -58,8 +58,8 @@ jobs:
           export PATH=/usr/lib/mxe/usr/bin:$PATH
           perl makeconfig.pl PLATFORM WIN32CROSS
           cd loch; perl makeconfig.pl PLATFORM WIN32CROSS; cd ..
-          make -j$(nproc) ./therion
-          make -j$(nproc) loch/loch
+          make -j$(nproc) OUTDIR=. ./therion
+          make -j$(nproc) OUTDIR=. loch/loch
   mxe-x86_64:
     runs-on: ubuntu-20.04
     steps:
@@ -75,8 +75,8 @@ jobs:
           export PATH=/usr/lib/mxe/usr/bin:$PATH
           perl makeconfig.pl PLATFORM WIN32CROSS
           cd loch; perl makeconfig.pl PLATFORM WIN32CROSS; cd ..
-          make CROSS=x86_64-w64-mingw32.static- -j$(nproc) ./therion
-          make CROSS=x86_64-w64-mingw32.static- -j$(nproc) loch/loch
+          make CROSS=x86_64-w64-mingw32.static- -j$(nproc) OUTDIR=. ./therion
+          make CROSS=x86_64-w64-mingw32.static- -j$(nproc) OUTDIR=. loch/loch
   mingw:
     runs-on: windows-latest
     strategy:
@@ -99,6 +99,6 @@ jobs:
           WD: D:/a/_temp/msys/msys64/usr/bin/
         run: |
           mingw32-make config-win32
-          mingw32-make -j$(nproc) ./therion
-          mingw32-make -j$(nproc) loch/loch
+          mingw32-make -j$(nproc) OUTDIR=. ./therion
+          mingw32-make -j$(nproc) OUTDIR=. loch/loch
           mingw32-make tests
