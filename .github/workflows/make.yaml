@@ -101,4 +101,4 @@ jobs:
           mingw32-make config-win32
           mingw32-make -j$(nproc) OUTDIR=. ./therion
           mingw32-make -j$(nproc) OUTDIR=. loch/loch
-          mingw32-make tests
+          mingw32-make OUTDIR=. tests
