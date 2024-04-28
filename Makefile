@@ -144,7 +144,7 @@ TESTOBJECTS_P = $(addprefix $(OUTDIR)/,$(TESTOBJECTS))
 
 
 # linker settings
-LIBS = $(PROJ_LIBS) -lfmt
+LIBS = $(PROJ_LIBS) $(shell $(CROSS)pkg-config fmt --libs)
 LDFLAGS = $(LDBFLAGS)
 
 
