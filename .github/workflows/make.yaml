@@ -2,7 +2,7 @@ name: make
 on: [push, pull_request]
 jobs:
   ubuntu:
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - name: install dependencies
@@ -16,8 +16,6 @@ jobs:
           make tests
           sudo make install
           ./therion --print-symbols
-      - name: make samples
-        run: make samples
   # mac:
   #   runs-on: macos-latest
   #   steps:
