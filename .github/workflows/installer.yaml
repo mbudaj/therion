@@ -108,12 +108,14 @@ jobs:
           cd ../therion.bin
           mv therion-setup.exe therion-setup-$THID.exe
           mv thbook/thbook.pdf thbook-$THID.pdf
+          sha256sum therion-setup-$THID.exe thbook-$THID.pdf > sha256-$THID.txt
       - uses: actions/upload-artifact@v4
         with:
           name: therion-setup-msys2-${{ steps.build.outputs.THID_out }}
           path: |
             ${{ env.THDIR }}/therion.bin/therion-setup-${{ steps.build.outputs.THID_out }}.exe
             ${{ env.THDIR }}/therion.bin/thbook-${{ steps.build.outputs.THID_out }}.pdf
+            ${{ env.THDIR }}/therion.bin/sha256-${{ steps.build.outputs.THID_out }}.txt
   Release:
     runs-on: ubuntu-latest
     needs: Windows_installer
@@ -146,3 +148,12 @@ jobs:
           asset_path: thbook-${{ needs.Windows_installer.outputs.THID }}.pdf
           asset_name: thbook-${{ needs.Windows_installer.outputs.THID }}.pdf
           asset_content_type: application/pdf
+      - name: Upload checksums
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ env.URL }}
+          asset_path: sha256-${{ needs.Windows_installer.outputs.THID }}.txt
+          asset_name: sha256-${{ needs.Windows_installer.outputs.THID }}.txt
+          asset_content_type: text/plain
