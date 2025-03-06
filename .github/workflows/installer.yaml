@@ -92,7 +92,7 @@ jobs:
           mkdir -p $HOME/.therion
           echo -e "mpost-path ${THDIR}/therion-batteries/bin/windows/mpost.exe\npdftex-path ${THDIR}/therion-batteries/bin/windows/pdftex.exe\nidentify-path ${THDIR}/therion-batteries/bin/identify.exe\nconvert-path ${THDIR}/therion-batteries/bin/convert.exe\n" > $HOME/.therion/therion.ini
           wget -qO - https://github.com/therion/therion-batteries/archive/master.tar.gz | tar -xzf - && mv therion-batteries-master ../therion-batteries
-          if ${{startsWith(github.ref, 'refs/tags/v')}}; then THID=${GITHUB_REF##*/}; else THID=$(git rev-parse --short HEAD); fi
+          if ${{startsWith(github.ref, 'refs/tags/v')}}; then THID=${GITHUB_REF##*/}; FID=${TAG_NAME#v}; else THID=$(git rev-parse --short HEAD); FID=$(git rev-parse HEAD); fi
           echo "THID_out=$THID" >> $GITHUB_OUTPUT
           BRANCH_FULL=$(git branch -r --contains ${{ github.ref }})
           BRANCH=${BRANCH_FULL##*/}
@@ -108,10 +108,9 @@ jobs:
           cd ../therion.bin
           mv therion-setup.exe therion-setup-$THID.exe
           mv thbook/thbook.pdf thbook-$THID.pdf
-          #git archive --prefix=therion-$THID/ --format=tar.gz $THID | sha256sum > sha256-$THID.txt && $THID >> sha256sum.txt
-          wget https://github.com/${{ github.repository }}/archive/$THID.tar.gz -o therion-$THID.tar.gz
-          wget https://github.com/${{ github.repository }}/archive/$THID.zip -o therion-$THID.zip
-          sha256sum thbook-$THID.pdf therion-*.zip therion-*.tar.gz therion-setup-$THID.exe >> sha256-$THID.txt
+          curl -L https://github.com/${{ github.repository }}/archive/$THID.tar.gz -o therion-$FID.tar.gz
+          curl -L https://github.com/${{ github.repository }}/archive/$THID.zip -o therion-$FID.zip
+          sha256sum thbook-$THID.pdf therion-$FID.tar.gz therion-$FID.zip therion-setup-$THID.exe >> sha256-$THID.txt
       - uses: actions/upload-artifact@v4
         with:
           name: therion-setup-msys2-${{ steps.build.outputs.THID_out }}
