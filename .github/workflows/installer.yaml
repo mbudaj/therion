@@ -109,8 +109,8 @@ jobs:
           mv therion-setup.exe therion-setup-$THID.exe
           mv thbook/thbook.pdf thbook-$THID.pdf
           #git archive --prefix=therion-$THID/ --format=tar.gz $THID | sha256sum > sha256-$THID.txt && $THID >> sha256sum.txt
-          wget https://github.com/${{ github.repository }}/archive/$THID.tar.gz
-          wget https://github.com/${{ github.repository }}/archive/$THID.zip
+          wget https://github.com/${{ github.repository }}/archive/$THID.tar.gz -o therion-$THID.tar.gz
+          wget https://github.com/${{ github.repository }}/archive/$THID.zip -o therion-$THID.zip
           sha256sum thbook-$THID.pdf therion-*.zip therion-*.tar.gz therion-setup-$THID.exe >> sha256-$THID.txt
       - uses: actions/upload-artifact@v4
         with:
