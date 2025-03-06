@@ -108,7 +108,8 @@ jobs:
           cd ../therion.bin
           mv therion-setup.exe therion-setup-$THID.exe
           mv thbook/thbook.pdf thbook-$THID.pdf
-          sha256sum therion-setup-$THID.exe thbook-$THID.pdf > sha256-$THID.txt
+          git archive --prefix=therion-$THID/ --format=tar.gz $THID | sha256sum > sha256-$THID.txt && $THID >> sha256sum.txt
+          sha256sum thbook-$THID.pdf therion-setup-$THID.exe >> sha256-$THID.txt
       - uses: actions/upload-artifact@v4
         with:
           name: therion-setup-msys2-${{ steps.build.outputs.THID_out }}
